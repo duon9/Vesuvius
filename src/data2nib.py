@@ -6,13 +6,10 @@ import tifffile
 import nibabel as nib
 from tqdm import tqdm
 
-# ============================================================
-# CẤU HÌNH (SỬA ĐƯỜNG DẪN TẠI ĐÂY)
-# ============================================================
 CONFIG = {
     "src_img": "data/train_images", 
     "src_lbl": "data/train_labels",
-    "nnunet_raw": "nnUNet_raw",
+    "nnunet_raw": "data/nnUNet_raw",
     "dataset_id": 501,
     "dataset_name": "Vesuvius320"
 }
@@ -36,20 +33,15 @@ def main():
 
     print(f"--> Start converting {len(imgs)} files for nnU-Net V2...")
 
-    # 1. CONVERT DATA (Batch Processing)
     for i, (imp, lbp) in tqdm(enumerate(zip(imgs, lbls)), total=len(imgs)):
         case_id = f"Vesuvius_{i:03d}"
         
-        # Load & Cast -> RAM usage thấp do load tuần tự
         img = tifffile.imread(imp).astype(np.float32)
         lbl = tifffile.imread(lbp).astype(np.uint8)
 
-        # Save NIfTI
         save_nifti(img, os.path.join(img_tr, f"{case_id}_0000.nii.gz"))
         save_nifti(lbl, os.path.join(lbl_tr, f"{case_id}.nii.gz"))
 
-    # 2. CREATE DATASET.JSON (Chuẩn nnU-Net V2)
-    # V2 dùng "channel_names" thay vì "modality" cũ
     json_info = {
         "channel_names": {
             "0": "CT"
