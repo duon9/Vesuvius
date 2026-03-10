@@ -1,15 +1,13 @@
 1. `python prepare_data.py`, which would
    - Read training data from `RAW_DATA_DIR` (specified in `SETTINGS.json`)
    - Run any preprocessing steps
-   - Save the cleaned data to `CLEAN_DATA_DIR` (specified in `SETTINGS.json`)
 
 2. `python train.py`, which would
-   - Read training data from `CLEAN_DATA_DIR` (specified in `SETTINGS.json`)
    - Train your model.
-   - Save your model to `MODEL_DIR` (specified in `SETTINGS.json`)
+   - Save your model to `nnunet/nnUNet_results`
 
 3. `python predict.py`, which would
-   - Read test data from `TEST_DATA` (specified in `SETTINGS.json`)
-   - Load your model from `MODEL_DIR` (specified in `SETTINGS.json`)
+   - Read test data from `TEST_DATA_DIR` (specified in `SETTINGS.json`)
+   - Auto load your model from `nnunet/nnUNet_results`
    - Use your model to make predictions on new samples
-   - Save your predictions to `SUBMISSION_DIR` (specified in `SETTINGS.json`)
+   - Save your predictions to `OUTPUT_DIR` (specified in `SETTINGS.json`)
