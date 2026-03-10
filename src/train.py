@@ -1,7 +1,25 @@
+import os
 import subprocess
 
+
+NNUNET_RAW = "nnunet/nnUNet_raw"
+NNUNET_PREPROCESSED = "nnunet/nnUNet_preprocessed"
+NNUNET_RESULTS = "nnunet/nnUNet_results"
+
+
 def run_nnunet_train():
-    # Lệnh cần chạy
+
+    # set environment variables
+    os.environ["nnUNet_raw"] = NNUNET_RAW
+    os.environ["nnUNet_preprocessed"] = NNUNET_PREPROCESSED
+    os.environ["nnUNet_results"] = NNUNET_RESULTS
+
+    # đảm bảo folder tồn tại
+    os.makedirs(NNUNET_RAW, exist_ok=True)
+    os.makedirs(NNUNET_PREPROCESSED, exist_ok=True)
+    os.makedirs(NNUNET_RESULTS, exist_ok=True)
+
+    # command training
     cmd = [
         "nnUNetv2_train",
         "501",
@@ -12,7 +30,6 @@ def run_nnunet_train():
     ]
 
     try:
-        # Chạy command
         result = subprocess.run(
             cmd,
             stdout=subprocess.PIPE,
@@ -20,14 +37,12 @@ def run_nnunet_train():
             text=True
         )
 
-        # In kết quả
         print("===== STDOUT =====")
         print(result.stdout)
 
         print("===== STDERR =====")
         print(result.stderr)
 
-        # Kiểm tra exit code
         if result.returncode == 0:
             print("Training started successfully ✅")
         else:

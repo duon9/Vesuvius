@@ -14,6 +14,9 @@ SRC_LBL = "train_labels"
 
 DATASET_ID = 501
 DATASET_NAME = "Vesuvius320"
+
+NNUNET_RAW = "nnunet/nnUNet_raw"
+NNUNET_PREPROCESSED = "nnunet/nnUNet_preprocessed"
 # ==========================
 
 
@@ -28,10 +31,10 @@ def save_nifti(arr, path):
     nib.save(nib.Nifti1Image(arr, np.eye(4)), path)
 
 
-def build_nnunet_raw(raw_data_dir, nnunet_raw):
+def build_nnunet_raw(raw_data_dir):
 
     dataset_folder = f"Dataset{DATASET_ID}_{DATASET_NAME}"
-    out_dir = os.path.join(nnunet_raw, dataset_folder)
+    out_dir = os.path.join(NNUNET_RAW, dataset_folder)
 
     imagesTr = os.path.join(out_dir, "imagesTr")
     labelsTr = os.path.join(out_dir, "labelsTr")
@@ -76,13 +79,12 @@ def build_nnunet_raw(raw_data_dir, nnunet_raw):
     print("--> nnUNet_raw dataset ready")
 
 
-def run_preprocess(nnunet_raw, clean_dir):
+def run_preprocess():
 
     print("\n--> Running nnU-Net preprocessing")
 
-    # set env for nnU-Net
-    os.environ["nnUNet_raw"] = nnunet_raw
-    os.environ["nnUNet_preprocessed"] = clean_dir
+    os.environ["nnUNet_raw"] = NNUNET_RAW
+    os.environ["nnUNet_preprocessed"] = NNUNET_PREPROCESSED
 
     cmd = [
         "nnUNetv2_plan_and_preprocess",
@@ -101,16 +103,13 @@ def run_preprocess(nnunet_raw, clean_dir):
 def main():
 
     cfg = load_settings()
+    raw_data_dir = cfg["RAW_DATA_DIR"]
 
-    raw_data_dir = cfg["RAW_DATA_DIR"]      # TIFF dataset
-    clean_dir = cfg["CLEAN_DATA_DIR"]       # nnUNet_preprocessed output
+    os.makedirs(NNUNET_RAW, exist_ok=True)
+    os.makedirs(NNUNET_PREPROCESSED, exist_ok=True)
 
-    nnunet_raw = os.path.join(clean_dir, "nnUNet_raw")
-
-    os.makedirs(nnunet_raw, exist_ok=True)
-
-    build_nnunet_raw(raw_data_dir, nnunet_raw)
-    run_preprocess(nnunet_raw, clean_dir)
+    build_nnunet_raw(raw_data_dir)
+    run_preprocess()
 
 
 if __name__ == "__main__":

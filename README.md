@@ -4,7 +4,7 @@ Below you can find a outline of how to reproduce my solution for the Vesuvius Ch
 If you run into any trouble with the setup/code or have any questions please contact me at ngducduong305@gmail.com
 
 # ARCHIVE CONTENTS
-kaggle_model.tgz          : original kaggle model upload - contains original code, additional training examples, corrected labels, etc
+kaggle_model.zip          : original kaggle model upload - contains original code, additional training examples, corrected labels, etc
 train.py                  : code to rebuild models from scratch
 prepare_data.py           : code to prepare and preprocess data
 predict.py                : code to generate predictions from model binaries

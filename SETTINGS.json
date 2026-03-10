@@ -1,7 +1,5 @@
 {
-    "RAW_DATA_DIR" : "sdsjsi",
-    "CLEAN_DATA_DIR" : "sdadads",
-    "MODEL_DIR" : "fsfesfeef",
-    "SUBMISSION_DIR" : "đaadad",
-    "TEST_DATA" : "ádasdasdasd"
+    "RAW_DATA_DIR" : "data/",
+    "OUTPUT_DIR" : "output/",
+    "TEST_DATA_DIR" : "data/test_images/"
 }
