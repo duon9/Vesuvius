@@ -11,6 +11,20 @@ from numba import jit, prange
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import warnings
 from skimage.measure import euler_number
+import os
+import glob
+import zipfile
+import numpy as np
+import torch
+import tifffile
+from tqdm import tqdm
+from skimage import morphology
+import scipy.ndimage as ndi
+from concurrent.futures import ThreadPoolExecutor
+import threading
+
+from nnunetv2.inference.predict_from_raw_data import nnUNetPredictor
+from nnunetv2.imageio.tif_reader_writer import Tiff3DIO
 
 # ============================================================================
 # NUMBA-OPTIMIZED RASTERIZATION (10-50x faster)
@@ -3116,25 +3130,6 @@ CONFIG = {
     "xy_radius": 0,
     "min_object_size": 2000,
 }
-
-# ============================================================
-# 2. IMPORTS
-# ============================================================
-
-import os
-import glob
-import zipfile
-import numpy as np
-import torch
-import tifffile
-from tqdm import tqdm
-from skimage import morphology
-import scipy.ndimage as ndi
-from concurrent.futures import ThreadPoolExecutor
-import threading
-
-from nnunetv2.inference.predict_from_raw_data import nnUNetPredictor
-from nnunetv2.imageio.tif_reader_writer import Tiff3DIO
 
 # ============================================================
 # 3. POST-PROCESSING FUNCTIONS
